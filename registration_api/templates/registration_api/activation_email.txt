@@ -1,0 +1,10 @@
+Package email
+
+Welcome to ProBrawl!
+
+Please click the link below to activate your account.
+
+http://{{site}}/accounts_api/activate/{{activation_key}}/
+
+This link will expire in {{expiration_days}} days.
+

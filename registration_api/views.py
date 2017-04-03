@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-import utils
-from serializers import UserSerializer
+from registration_api import utils
+from registration_api.serializers import UserSerializer
 
 
 VALID_USER_FIELDS = utils.get_valid_user_fields()
@@ -15,9 +15,9 @@ VALID_USER_FIELDS = utils.get_valid_user_fields()
 @api_view(['POST'])
 @permission_classes((AllowAny, ))
 def register(request):
-    serialized = UserSerializer(data=request.POST)
+    serialized = UserSerializer(data=request.data)
     if serialized.is_valid():
-        user_data = utils.get_user_data(request.POST)
+        user_data = utils.get_user_data(request.data)
         utils.create_inactive_user(**user_data)
         return Response(utils.USER_CREATED_RESPONSE_DATA,
                         status=status.HTTP_201_CREATED)
@@ -25,6 +25,8 @@ def register(request):
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
 def activate(request, activation_key=None):
     """
     Given an an activation key, look up and activate the user
@@ -35,4 +37,4 @@ def activate(request, activation_key=None):
     # if not activated
     success_url = utils.get_settings('REGISTRATION_API_ACTIVATION_SUCCESS_URL')
     if success_url is not None:
-        return HttpResponseRedirect(success_url)
+        return Response(data={"message": "User activated"}, status=status.HTTP_200_OK)

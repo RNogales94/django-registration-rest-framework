@@ -8,7 +8,7 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 
-from .models import RegistrationProfile
+from registration_api.models import RegistrationProfile
 
 from django.db import transaction
 # django 1.6, 1.5 and 1.4 supports

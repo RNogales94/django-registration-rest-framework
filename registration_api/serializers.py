@@ -7,6 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
+        fields = '__all__'
 
     def to_native(self, obj):
         """Remove password field when serializing an object"""
